@@ -25,3 +25,20 @@
 #container a {
   text-decoration: none;
 }
+
+/* Hide ion-content scrollbar */
+::-webkit-scrollbar{
+  display:none;
+}
+/* Without setting height the slides will take up the height of the slide's content */
+ion-slides {
+  height: 400px;
+}
+.person-attend{
+  width: 12px; height: 12px; border-radius: 50%; padding: 5px;
+  background-color: #ffffff;
+  color: #000000;
+}
+.person-attend:not(:first-child){
+  margin-left: -10px;
+}

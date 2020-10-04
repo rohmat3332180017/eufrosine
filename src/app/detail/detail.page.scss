@@ -1,0 +1,9 @@
+.person-attend{
+    width: 12px; height: 12px; border-radius: 50%; padding: 5px;
+    border: 1px solid #92949c;
+    background-color: white;
+    color: #000000;
+  }
+  .person-attend:not(:first-child){
+    margin-left: -10px;
+  }

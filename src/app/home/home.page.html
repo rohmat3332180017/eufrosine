@@ -1,20 +1,266 @@
-<ion-header [translucent]="true">
+<!-- HEADER VERSI LAWAS 
+// HAPUS JIKA PROJECT TELAH MENCAPAI FINAL -->
+<ion-header [translucent]="false" style="display: none;">
+  <ion-toolbar padding class="transparent">
+      <ion-segment class="category-bar" [(ngModel)]="kategori">
+        <ion-segment-button value="konser">
+          <ion-icon [name]="fIsKategori('konser') ? 'ribbon':'ribbon-outline'"></ion-icon>
+          <ion-label>Konser</ion-label>
+        </ion-segment-button>
+
+        <ion-segment-button value="festival">
+          <ion-icon [name]="fIsKategori('festival') ? 'gift':'gift-outline'"></ion-icon>
+          <ion-label>Festival</ion-label>
+        </ion-segment-button>
+
+        <ion-segment-button value="sosial">
+          <ion-icon [name]="fIsKategori('sosial') ? 'people':'people-outline'"></ion-icon>
+          <ion-label>Sosial</ion-label>
+        </ion-segment-button>
+
+        <ion-segment-button value="seminar">
+          <ion-icon [name]="fIsKategori('seminar') ? 'megaphone':'megaphone-outline'"></ion-icon>
+          <ion-label>Seminar</ion-label>
+        </ion-segment-button>
+
+        <ion-segment-button value="lainnya">
+          <ion-icon [name]="fIsKategori('lainnya') ? 'bookmarks':'bookmarks-outline'"></ion-icon>
+          <ion-label>Lainnya</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+  </ion-toolbar>
+
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-segment scrollable class="filter-bar">
+      <ion-button color="primary" [fill]="fIsTerbaru() ? 'outline':'clear'" (click)="terbaru()" size="small" shape="round">Terbaru</ion-button>
+      <ion-button color="primary" [fill]="fIsTerdekat() ? 'outline':'clear'" (click)="terdekat()" size="small" shape="round">Terdekat</ion-button>
+      <ion-button color="primary" [fill]="fIsTerpopuler() ? 'outline':'clear'" (click)="terpopuler()" size="small" shape="round">Terpopuler</ion-button>
+      <ion-button color="primary" [fill]="fIsDaring() ? 'outline':'clear'" (click)="daring()" size="small" shape="round">Daring</ion-button>
+      <ion-button color="primary" [fill]="fIsLuring() ? 'outline':'clear'" (click)="luring()" size="small" shape="round">Luring</ion-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
+<!-- END OF HEADER VERSI LAWAS -->
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<!-- HEADER VERSI TERBARU -->
+<div class="header-menu">
+  <ion-grid fixed>
+    <ion-row>
+      <!-- LOGO -->
+      <ion-col size="8" style="padding: 10px; padding-left: 15px; color: #ffffff !important;">
+        <ion-text class="main-title">Eufrosine</ion-text><br/>
+        <ion-text class="complement-text">Get Your Awesome Events Here!</ion-text>
+      </ion-col>
+      <!-- END OF LOGO -->
+      <!-- MENU HEADER, NOTIFIKASI DAN ACARA SAYA -->
+      <!-- ########################## MENU NOTIFIKASI ################################## -->
+      <ion-col size="2" style="padding-top: 13px;">
+        <ion-button color="light" fill="clear" shape="round" (click)="goToKategori('notifikasi')">
+        <ion-icon name="notifications"></ion-icon>
+        <ion-badge class="header-menu-badge" color="primary" style="border-radius: 50%;">&nbsp;</ion-badge>
+        </ion-button>
+      </ion-col>
+      <!-- ########################## MENU ACARA SAYA ################################## -->
+      <ion-col size="2" style="padding-top: 13px; padding-right: -2px;">
+      <ion-button color="light" fill="clear" shape="round" (click)="goToKategori('acaraSaya')">
+        <ion-icon name="calendar-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>
+<!-- END OF HEADER VERSI TERBARU -->
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+<!-- ===================================================================================================== -->
+
+<!-- ION CONTENT -->
+<ion-content class="transparent">
+ <div [ngSwitch]="kategori">
+   <!-- KATEGORI ALL -->
+  <div *ngSwitchCase="'all'">
+  <ion-slides pager="false" [options]="slideOpts">
+    <ion-slide *ngFor="let event of events | slice:0:3" (click)="openDetailsWithQueryParams(event.code, event.src)">
+      <ion-card class="event-card" style="background: url('{{event.img}}');">
+
+        <ion-card-content>
+          <ion-button color="light" fill="clear" style="margin-left: -20px; margin-top: -18px;" shape="round" size="large">
+            <ion-icon name="bookmarks-outline"></ion-icon>
+          </ion-button>
+        </ion-card-content>
+
+        <ion-card-header>
+
+          <ion-card-title>{{ event.name }}</ion-card-title>
+
+          <ion-card-subtitle>
+            <ion-icon name="location-outline"></ion-icon>
+            {{ event.location }}
+          </ion-card-subtitle>
+          <!--<ion-card-subtitle>
+            <ion-button fill="outline" color="light" size="small" style="font-size: 10px;" shape="round">{{ event.kategori }}</ion-button>
+          </ion-card-subtitle>-->
+          <ion-card-subtitle>
+            <ion-icon name="person" color="dark" size="small" class="person-attend"></ion-icon>
+            <ion-icon name="person" color="dark" size="small" class="person-attend"></ion-icon>
+            <ion-icon name="person" color="dark" size="small" class="person-attend"></ion-icon>
+            <div style="display: inline; padding-top: 5px; padding-left: 5px; position: absolute;">
+              <ion-text class="complement-text">{{ event.attend_person }}+ Orang akan Hadir</ion-text>
+            </div>
+          </ion-card-subtitle>
+
+        </ion-card-header>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+
+  <!-- SUB KONTEN KATEGORI ACARA -->
+  <ion-grid style="margin-top:-25px; background-color: white;">
+    <ion-row>
+      <ion-col style="padding-left: 15px; color: #5d03a5;">
+        <ion-text class="medium-title main-gradient">
+          Choose as Event Category
+        </ion-text>
+        <br/>
+        <ion-text class="complement-text">
+          Make you find your favorite event quickly
+        </ion-text>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-grid>
+          <ion-row>
+            <ion-segment [(ngModel)]="kategori" scrollable class="filter-bar" style="padding: 0 !important;">
+              <ion-segment-button *ngFor="let segmentKategori of segmentsKategori" value="{{segmentKategori.name}}" style="background-image: url({{segmentKategori.bg}});" class="segment-kategori">
+                {{segmentKategori.name}}
+            </ion-segment-button>
+            </ion-segment>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  <!-- END OF SUB KATEGORI ACARA -->
+
+  <!-- SUB KONTEN KOLEKSI EVENT -->
+    <ion-row>
+      <ion-col style="padding-left: 15px; color: #5d03a5;">
+        <ion-text class="medium-title main-gradient">
+          Wanna Something More ?
+        </ion-text>
+        <br/>
+        <ion-text class="complement-text">
+          Explore Our Events Collection
+        </ion-text>
+      </ion-col>
+    </ion-row>
+  
+    <!-- START INFINITE SCROLL -->
+    <!-- DATA INFINITE SCROLL -->
+    <ion-row *ngFor="let event of events">
+      <ion-col>
+        <ion-card class="event-collect" fill="outline" (click)="openDetailsWithQueryParams(event.code, event.src)">
+          <ion-grid>
+            <ion-row>
+              <ion-col size="4">
+                <div class="event-thumbnail" style="background: url({{event.img}});"></div>
+              </ion-col>
+              <ion-col style="text-align: left;">
+                <ion-text class="small-title">{{ event.name }}</ion-text><br/><br/>
+                <ion-text class="complement-text">
+                  {{ event.desc }}
+                </ion-text>
+                <div style="text-align: right; position: absolute; right: 0; bottom: 0;">
+                  <ion-button style="font-size: 12px;" color="tertiary" size="small" shape="round">Look</ion-button>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <!-- END OF DATA INFINITE SCROLL -->
+    
+    <ion-infinite-scroll threshold="10px" (ionInfinite)="loadData($event)">
+      <ion-infinite-scroll-content style="min-height: 0;"
+        loadingSpinner="bubbles"
+        loadingText="Lagi nyari event yang kamu suka ...">
+      </ion-infinite-scroll-content>
+      <div style="color:#92949c; text-align: center; padding: 34px 0; font-size: 16px;" id="dataEnded"></div>
+    </ion-infinite-scroll>
+
+    <!-- END OF INFINITE SCROLL -->
+  </ion-grid>
   </div>
+  <!-- END OF KATEGORI ALL -->
+
+  <!-- KATEGORI KONSER -->
+  <div *ngSwitchCase="'konser'">
+    <ion-card color="primary" fill="outline" *ngFor="let event of events" [style]="event.kategori != 'konser' ? 'display:none':''">
+      <ion-card-header>
+        {{event.name}}
+      </ion-card-header>
+      <ion-card-content>
+        {{event.desc}}
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <!-- END OF KATEGORI KONSER -->
+
+  <!-- KATEGORI FESTIVAL -->
+  <div *ngSwitchCase="'festival'">
+    Festival
+  </div>
+  <!-- END OF KATEGORI FESTIVAL -->
+
+  <!-- KATEGORI SOSIAL -->
+  <div *ngSwitchCase="'sosial'">
+    Sosial
+  </div>
+  <!-- END OF KATEGORI SOSIAL -->
+
+  <!-- KATEGORI SEMINAR -->
+  <div *ngSwitchCase="'seminar'">
+    Seminar
+  </div>
+  <!-- END OF KATEGORI SEMINAR -->
+
+  <!-- KATEGORI LAINNYA -->
+  <div *ngSwitchCase="'lainnya'">
+    Lainnya
+  </div>
+  <!-- END OF KATEGORI LAINNYA -->
+
+  <!-- KATEGORI NOTIFIKASI -->
+  <div *ngSwitchCase="'notifikasi'">
+    Notifikasi
+  </div>
+  <!-- END OF KATEGORI LAINNYA -->
+
+  <!-- KATEGORI ACARA SAYA -->
+  <div *ngSwitchCase="'acaraSaya'">
+    Acara Saya
+  </div>
+  <!-- END OF KATEGORI LAINNYA -->
+  </div>
+  <!-- =========================================== END OF KATEGORI ================================== -->
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar class="taskbar">
+    <ion-tabs>
+      <!-- Tab bar -->
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button (click)="goHomePage()">
+          <ion-icon [class]="fIsKategori('all') ? 'purple':'tertiary'" [name]="fIsKategori('all') ? 'home':'home-outline'"></ion-icon>
+        </ion-tab-button>
+        <ion-tab-button (click)="goToSearch()">
+          <ion-icon color="tertiary" name="search-outline"></ion-icon>
+        </ion-tab-button>
+        <ion-tab-button (click)="goToAccount()">
+          <ion-icon color="tertiary" name="person-outline"></ion-icon>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-toolbar>
+</ion-footer>

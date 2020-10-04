@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-grid style="background: url(../../assets/img/background3.png)">
+      <ion-row>
+        <ion-col size="2">
+          <ion-button color="light" shape="round" fill="clear" style="margin-left: -10px;" routerLink="/home" routerDirection="root">
+            <ion-icon name="arrow-back" style="font-size:30px"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col size="8">
+          <ion-input [(ngModel)]="querySearch" id="searchInput" style="border: 1px solid #ffffff; border-radius: 25px; padding: 0 10px !important; margin-top: 2px;" clearInput placeholder="Cari Sebuah Event" autofocus="true" color="light" enterkeyhint="enter"></ion-input>
+        </ion-col>
+        <ion-col size="2">
+          <ion-button shape="round" color="light" fill="clear" style="margin-left: -15px;" (click)="fn_search()">
+            <ion-icon name="search-outline" style="font-size:30px"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [ngSwitch]="searchIndex">
+  <!-- FILTER PENCARIAN -->
+<ion-grid *ngSwitchCase="'false'">
+  <ion-row>
+    <ion-col>
+      Filter
+    </ion-col>
+  </ion-row>
+</ion-grid>
+<!-- END OF FILTER PENCARIAN-->
+
+<!-- HASIL PENCARIAN -->
+<ion-grid *ngSwitchCase="'true'">
+    <ion-row id="searchResult" *ngFor="let event of addEvents; let i = index" [style]="isExist(event.name,i) ? '':'display:none;'">
+      <ion-col>
+        <ion-card class="event-collect" fill="outline" (click)="openDetailsWithQueryParams(event.code)">
+          <ion-grid>
+            <ion-row>
+              <ion-col size="4">
+                <div class="event-thumbnail" style="background: url({{event.img}});"></div>
+              </ion-col>
+              <ion-col style="text-align: left;">
+                <ion-text class="small-title">{{ event.name }}</ion-text><br/><br/>
+                <ion-text class="complement-text">
+                  {{ event.desc }}
+                </ion-text>
+                <div style="text-align: right; position: absolute; right: 0; bottom: 0;">
+                  <ion-button style="font-size: 12px;" color="tertiary" size="small" shape="round">Look</ion-button>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-item id="notFound" style="display: none; text-align: center;">
+        Pencarian Selesai. Jika tidak menampilkan hasil, lakukan pencarian dengan kata kunci yang lain.
+      </ion-item>
+    </ion-row>
+</ion-grid>
+<!-- END OF HASIL PENCARIAN-->
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-tabs>
+      <!-- Tab bar -->
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button routerLink="/home" routerDirection="root">
+          <ion-icon class="tertiary" name="home-outline"></ion-icon>
+        </ion-tab-button>
+        <ion-tab-button>
+          <ion-icon class="purple" name="search"></ion-icon>
+        </ion-tab-button>
+        <ion-tab-button (click)="goToAccount()">
+          <ion-icon color="tertiary" name="person-outline"></ion-icon>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-toolbar>
+</ion-footer>

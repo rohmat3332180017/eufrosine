@@ -1,0 +1,121 @@
+<div style="display: none;">
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      <ion-button mode="ios" color="light" routerLink="/home" routerDirection="root"><ion-icon name="arrow-back"></ion-icon>
+      Back</ion-button>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  Detail of
+  <ion-card *ngIf="data">
+    <ion-card-header>
+      <ion-card-title>
+        {{ data.code }}
+      </ion-card-title>
+      <ion-card-subtitle>
+        {{data.name}}
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        {{ data.date }}
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+</div>
+
+<ion-content>
+<div *ngIf="data">
+  <div style="background: url({{data.img}}) #ffffff; height: 300px; position: fixed; left: 0; top: 0; width: 100%;">
+    
+  </div>
+
+  <ion-grid style="width: 100%;">
+    <ion-row>
+      <ion-col>
+        <ion-button fill="clear" color="light" style="margin: 15px 10px" routerLink="/home" routerDirection="root">
+          <ion-icon name="arrow-back"></ion-icon>
+          &nbsp;
+          <ion-text class="capitalize">Back</ion-text>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-card style="margin-top: 80px; padding: 10px 5px; border-radius: 20px; min-height: 200px;">
+          <ion-card-header>
+            <ion-card-title style="padding-bottom: 5px;">
+              <ion-text style="font-size: 22px; font-weight: bold;">{{ data.name }}</ion-text>
+            </ion-card-title>
+            <ion-card-subtitle>
+              <ion-icon name="calendar-outline"></ion-icon>
+              <ion-text> {{data.date }}</ion-text>
+            </ion-card-subtitle>
+            <ion-card-subtitle>
+              <ion-icon name="location-outline"></ion-icon>
+              <ion-text> {{data.location }}</ion-text>
+            </ion-card-subtitle>
+            <ion-card-subtitle>
+              <ion-button color="medium" fill="outline" shape="round" size="small">{{ data.kategori }}</ion-button>
+            </ion-card-subtitle>
+            <ion-card-subtitle>
+              <ion-icon name="person" color="medium" size="small" class="person-attend"></ion-icon>
+              <ion-icon name="person" color="medium" size="small" class="person-attend"></ion-icon>
+              <ion-icon name="person" color="medium" size="small" class="person-attend"></ion-icon>
+              <div style="display: inline; padding-top: 5px; padding-left: 5px; position: absolute;">
+                <ion-text class="complement-text">{{ data.attend_person }}+ Orang akan Hadir</ion-text>
+              </div>
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-card-subtitle class="pb-8">
+              <ion-text class="small-title">Tentang Acara ini</ion-text>
+            </ion-card-subtitle>
+            <ion-card-subtitle class="pb-10">
+              <ion-text>
+                {{ data.desc }}
+              </ion-text>
+            </ion-card-subtitle>
+
+            <ion-card-subtitle class="pb-8">
+              <ion-text class="small-title">Penyelenggara</ion-text>
+            </ion-card-subtitle>
+            <ion-card-subtitle class="pb-10">
+              <div class="event-host" style="background: url({{data.host}}); background-size: contain; background-position: center center;">
+              </div>
+            </ion-card-subtitle>
+
+            <ion-card-subtitle class="pb-8">
+              <ion-text class="small-title">Komentar Teratas</ion-text>
+            </ion-card-subtitle>
+            <ion-card-subtitle class="pb-10">
+              {{ data.comments }}
+            </ion-card-subtitle>
+            <ion-row>
+            <ion-col style="text-align: center; margin-top: 15px;">
+                <!--<ion-button color="light" shape="round" class="circle">
+                  <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+                </ion-button>-->
+                <ion-button color="light" shape="round" class="circle">
+                  <ion-icon name="arrow-redo-outline"></ion-icon>
+                </ion-button>
+                <ion-button color="light" shape="round" class="circle">
+                  <ion-icon color="danger" name="heart"></ion-icon>
+                </ion-button>
+                <ion-button color="tertiary" shape="round" style="height: 50px; margin:0 4px">
+                  Akan Hadir
+                </ion-button>
+            </ion-col>
+          </ion-row>
+
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>
+</ion-content>
