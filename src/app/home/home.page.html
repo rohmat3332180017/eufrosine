@@ -49,7 +49,7 @@
       <!-- LOGO -->
       <ion-col size="8" style="padding: 10px; padding-left: 15px; color: #ffffff !important;">
         <ion-text class="main-title">Eufrosine</ion-text><br/>
-        <ion-text class="complement-text">Get Your Awesome Events Here!</ion-text>
+        <ion-text class="complement-text">Temukan Semua Acara Menarik Disini!</ion-text>
       </ion-col>
       <!-- END OF LOGO -->
       <!-- MENU HEADER, NOTIFIKASI DAN ACARA SAYA -->
@@ -118,11 +118,11 @@
     <ion-row>
       <ion-col style="padding-left: 15px; color: #5d03a5;">
         <ion-text class="medium-title main-gradient">
-          Choose as Event Category
+          Pilih Event Berdasarkan Kategori
         </ion-text>
         <br/>
         <ion-text class="complement-text">
-          Make you find your favorite event quickly
+          Cara cepat menemukan Acara kesukaan Anda
         </ion-text>
       </ion-col>
     </ion-row>
@@ -132,7 +132,7 @@
         <ion-grid>
           <ion-row>
             <ion-segment [(ngModel)]="kategori" scrollable class="filter-bar" style="padding: 0 !important;">
-              <ion-segment-button *ngFor="let segmentKategori of segmentsKategori" value="{{segmentKategori.name}}" style="background-image: url({{segmentKategori.bg}});" class="segment-kategori">
+              <ion-segment-button *ngFor="let segmentKategori of segmentsKategori" value="{{segmentKategori.name}}" style="background-size: cover; background: url({{segmentKategori.bg}}) center center no-repeat;" class="segment-kategori">
                 {{segmentKategori.name}}
             </ion-segment-button>
             </ion-segment>
@@ -146,11 +146,11 @@
     <ion-row>
       <ion-col style="padding-left: 15px; color: #5d03a5;">
         <ion-text class="medium-title main-gradient">
-          Wanna Something More ?
+          Ingin Sesuatu yang Lebih ?
         </ion-text>
         <br/>
         <ion-text class="complement-text">
-          Explore Our Events Collection
+          Jelajahi seluruh koleksi Acara yang Kami Punya
         </ion-text>
       </ion-col>
     </ion-row>

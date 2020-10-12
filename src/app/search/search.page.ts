@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Router, NavigationExtras } from '@angular/router';
 import { HomePage } from '../home/home.page';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 let homePageItem = new HomePage(null);
 
@@ -30,8 +31,19 @@ export class SearchPage {
   addEvents = homePageItem.addEvents;
   filteredEvents: any;
   querySearch = "";
+  kategori: any = 'all';
 
-  constructor(private router: Router) {
+  lat: any = 0;
+  long: any = 0;
+  latMin: any = 0;
+  latMax: any = 0;
+  longMin: any = 0;
+  longMax: any = 0;
+  distance_tollerance = 2;
+
+  geoLocationError: string;
+
+  constructor(private router: Router, private geolocation: Geolocation) {
   }
 
   /* FUNCTION */
@@ -67,4 +79,110 @@ export class SearchPage {
     }
     this.router.navigate(['detail'], navigationExtras);
   }
+
+  options = {
+    timeout: 10000,
+    enableHighAccuracy: true,
+    maximuxAge: 3600
+  };
+
+  //Geo Function
+  getLocation(){
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.lat = resp.coords.latitude;
+      this.long = resp.coords.longitude;
+      this.latMin = resp.coords.latitude-this.distance_tollerance;
+      this.latMax = resp.coords.latitude+this.distance_tollerance;
+      this.longMin = resp.coords.longitude-this.distance_tollerance;
+      this.longMax = resp.coords.longitude+this.distance_tollerance;
+      console.log('Lat :'+this.lat+', Long: '+this.long+', LatMin: '+this.latMin+', LatMax: '+this.latMax+', LongMin: '+this.longMin+', LongMax: '+this.longMax);
+    }).catch((error) => {
+      console.log('Error getting Location', error);
+      switch (error.code) {
+        case 2:
+          this.geoLocationError = 'Tak Terhubung ke Jaringan Internet';
+          break;
+      
+        default:
+          this.geoLocationError = 'Kesalahan Tidak Diketahui';
+          break;
+      }
+      
+    });
+  }
+
+  fIsKategori(val) {
+    if (this.kategori != val) {
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+
+  isTerbaru: boolean = false;
+  fIsTerbaru() {
+    return this.isTerbaru;
+  }
+  terbaru() {
+    this.isTerbaru = !this.isTerbaru;
+  }
+
+  isTerdekat: boolean = false;
+  fIsTerdekat() {
+    return this.isTerdekat;
+  }
+  terdekat() {
+    this.getLocation();
+    this.isTerdekat = !this.isTerdekat;
+    //this.kategori = 'terdekat';
+    if(this.isTerdekat){
+      document.getElementById("geoLocationError").style.display = "block";
+    }
+    else{
+      document.getElementById("geoLocationError").style.display = "none";
+    }
+  }
+
+  isTerpopuler: boolean = false;
+  fIsTerpopuler() {
+    return this.isTerpopuler;
+  }
+  terpopuler() {
+    this.isTerpopuler = !this.isTerpopuler;
+  }
+
+  isDaring: boolean = false;
+  fIsDaring() {
+    return this.isDaring;
+  }
+  daring() {
+    this.isDaring = !this.isDaring;
+  }
+
+  isLuring: boolean = false;
+  fIsLuring() {
+    return this.isLuring;
+  }
+  luring() {
+    this.isLuring = !this.isLuring;
+  }
+
+  isInArea(latitude, longitude){
+    if(this.isTerdekat == true){
+      if((latitude>this.latMin) && (latitude<this.latMax) && (longitude>this.longMin) && (longitude<this.longMax)){
+        return true;
+        //Tampilkan sesuai lokasi terdekat
+      }
+      else{
+        return false;
+        //Tampilkan tanpa filter lokasi
+      }
+    }
+    else{
+      return true;
+      // Tampilkan semua
+    }
+  }
+  // End of Function
 }

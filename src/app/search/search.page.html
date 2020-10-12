@@ -1,14 +1,17 @@
 <ion-header>
   <ion-toolbar>
-    <ion-grid style="background: url(../../assets/img/background3.png)">
+    <ion-grid style="background: url(../../assets/img/background.png)">
       <ion-row>
         <ion-col size="2">
-          <ion-button color="light" shape="round" fill="clear" style="margin-left: -10px;" routerLink="/home" routerDirection="root">
+          <ion-button color="light" shape="round" fill="clear" style="margin-left: -10px;" routerLink="/home"
+            routerDirection="root">
             <ion-icon name="arrow-back" style="font-size:30px"></ion-icon>
           </ion-button>
         </ion-col>
         <ion-col size="8">
-          <ion-input [(ngModel)]="querySearch" id="searchInput" style="border: 1px solid #ffffff; border-radius: 25px; padding: 0 10px !important; margin-top: 2px;" clearInput placeholder="Cari Sebuah Event" autofocus="true" color="light" enterkeyhint="enter"></ion-input>
+          <ion-input [(ngModel)]="querySearch" id="searchInput"
+            style="border: 1px solid #ffffff; border-radius: 25px; padding: 0 10px !important; margin-top: 2px;"
+            clearInput placeholder="Cari Sebuah Event" autofocus="true" color="light" enterkeyhint="enter"></ion-input>
         </ion-col>
         <ion-col size="2">
           <ion-button shape="round" color="light" fill="clear" style="margin-left: -15px;" (click)="fn_search()">
@@ -22,33 +25,64 @@
 
 <ion-content [ngSwitch]="searchIndex">
   <!-- FILTER PENCARIAN -->
-<ion-grid *ngSwitchCase="'false'">
-  <ion-row>
-    <ion-col>
-      Filter
-    </ion-col>
-  </ion-row>
-</ion-grid>
-<!-- END OF FILTER PENCARIAN-->
-
-<!-- HASIL PENCARIAN -->
-<ion-grid *ngSwitchCase="'true'">
-    <ion-row id="searchResult" *ngFor="let event of addEvents; let i = index" [style]="isExist(event.name,i) ? '':'display:none;'">
+  <ion-grid *ngSwitchCase="'false'">
+    <ion-row style="display: none;">
       <ion-col>
-        <ion-card class="event-collect" fill="outline" (click)="openDetailsWithQueryParams(event.code)">
+        <ion-button (click)="getLocation()">Get Location</ion-button><br />
+        <ion-text>Latitude : {{ lat }}</ion-text><br />
+        <ion-text>Longitude : {{ long }}</ion-text>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <!-- END OF FILTER PENCARIAN-->
+
+  <!-- HASIL PENCARIAN -->
+  <ion-grid *ngSwitchCase="'true'">
+    <ion-row>
+      <ion-col>
+        <ion-segment scrollable class="filter-bar">
+          <ion-button color="tertiary" [fill]="fIsTerbaru() ? 'outline':'clear'" (click)="terbaru()" size="small"
+            shape="round">Terbaru</ion-button>
+          <ion-button color="tertiary" [fill]="fIsTerdekat() ? 'outline':'clear'" (click)="terdekat()" size="small"
+            shape="round">Terdekat</ion-button>
+          <ion-button color="tertiary" [fill]="fIsTerpopuler() ? 'outline':'clear'" (click)="terpopuler()" size="small"
+            shape="round">Terpopuler</ion-button>
+          <ion-button color="tertiary" [fill]="fIsDaring() ? 'outline':'clear'" (click)="daring()" size="small"
+            shape="round">Daring</ion-button>
+          <ion-button color="tertiary" [fill]="fIsLuring() ? 'outline':'clear'" (click)="luring()" size="small"
+            shape="round">Luring</ion-button>
+        </ion-segment>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-text id="geoLocationError" style="text-align: center; display: block;">
+          {{geoLocationError}}
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row id="searchResult" *ngFor="let event of addEvents; let i = index" [style]="isExist(event.name,i) ? '':'display:none;'">
+      <ion-col style="padding: 0;">
+        <ion-card class="event-collect" fill="outline" (click)="openDetailsWithQueryParams(event.code)"
+          [style]="isInArea(event.long, event.lat) ? 'display:inline-block;':'display:none;'">
           <ion-grid>
             <ion-row>
               <ion-col size="4">
                 <div class="event-thumbnail" style="background: url({{event.img}});"></div>
               </ion-col>
               <ion-col style="text-align: left;">
-                <ion-text class="small-title">{{ event.name }}</ion-text><br/><br/>
+                <ion-text style="display: none;">Lat : {{event.long}}, Long: {{event.lat}}</ion-text>
+                <ion-text class="small-title">{{ event.name }}</ion-text><br />
+                <ion-text class="small-title" style="font-weight: normal; font-size: 13px;">
+                  <ion-icon name="location-outline"></ion-icon> {{event.location}}
+                </ion-text><br /><br />
                 <ion-text class="complement-text">
                   {{ event.desc }}
                 </ion-text>
-                <div style="text-align: right; position: absolute; right: 0; bottom: 0;">
+                <!--<div style="text-align: right; position: absolute; right: 0; bottom: 0;">
                   <ion-button style="font-size: 12px;" color="tertiary" size="small" shape="round">Look</ion-button>
-                </div>
+                </div>-->
               </ion-col>
             </ion-row>
           </ion-grid>
@@ -56,12 +90,14 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-item id="notFound" style="display: none; text-align: center;">
-        Pencarian Selesai. Jika tidak menampilkan hasil, lakukan pencarian dengan kata kunci yang lain.
-      </ion-item>
+      <ion-col>
+        <ion-item id="notFound" style="display: none; text-align: center;">
+          Pencarian Selesai. Jika tidak menampilkan hasil, lakukan pencarian dengan kata kunci yang lain.
+        </ion-item>
+      </ion-col>
     </ion-row>
-</ion-grid>
-<!-- END OF HASIL PENCARIAN-->
+  </ion-grid>
+  <!-- END OF HASIL PENCARIAN-->
 </ion-content>
 
 <ion-footer>
