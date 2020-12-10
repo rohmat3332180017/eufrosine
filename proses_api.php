@@ -1,19 +1,21 @@
-<php
-header('Access-Control-Allow-Origin: *’);
-header('Access-Control-Allow-Credentials: true'};
-header('Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS’);
-header('Access-Control-Allow-Headers: Origin, Content-Type, Authorization, Accept, X-Requested-With, x-xsrf-token');
-header('Content-Type: application/json; charset=UTF-8');
-
-include("config.php");
-
-$postjson = json_decode(file_get_contents('php://input'), true);
-
-$todayDate = date('d');
-$todayMonth date('m');
-$todayYear = date(‘Y’);
-
-if($postjson['aksi']=="proses_register”){
-$name = $postjson['name'l;
-$email = $postjson['email'];
-$pass = $postjson['password'];
+$konfir_password = $postison['konfir_password'];
+$agree $postjson['agree'];
+$created= $todayDate.";".$todayMonth.";".$todayYear;
+if($name == "}{
+$result = json_encode(array('success'=> false, 'msg' => "Nama tidak boleh kosong!'));
+}
+else if($email ==”"){
+$result = json_encode(array('success' => false, 'msg' => "Email tidak boleh kosong!"));
+}
+else if($pass == "”){
+$result json_encode(array('success' => false, 'msg' => "Kata Sandi tidak boleh kosong!"));
+}
+else if($konfir_password=="”){
+$result json_encode(array('success' => false, 'msg' => "Harap Konfirmasi Kata Sandi!"));
+}
+else if($pass != $konfir_password){
+$result json_encode(array('success'=> false, 'msg' => "Kata Sandi Tidak Sama!"));
+}
+else if($agree != 1){
+$result json_encode(array('success' => false, 'msg' => "Anda harus menyetujui Syarat& Ketentuan"));
+}
