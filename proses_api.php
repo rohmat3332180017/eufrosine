@@ -1,18 +1,18 @@
-$result json_encode(array('success' => false, 'msg' => Terjadi Kesalahan'));
+$rows mysqli_fetch_array($select);
+array_push ($data, $rows['name']);
 }
 }
+$result json_encode(array('success' => true, 'int_event' => $int_event, 'result' => $data));
+echo $result;
+}
+else if($postjson['aksi']=='update_int_event'){
+$update = mysqli_query($mysqli, "UPDATE 'user' SET int_event = '?" WHERE 'email' = '$postjson[email]’");
+if($update){
+$result = json_encode(array('update' => true));
 }
 echo $result;
 }
-else if($postjson['aksi']=='load_category'){
-$email = $postjson['email'];
-$loadCategoryUser = mysqli_query($mysqli, "SELECT * FROM 'user’ WHERE 'email' = ‘$email’");
-$rowsCategoryUser = mysqli_fetch_array($loadCategoryUser);
-$int_event = $rowsCategoryUser['int_event'];
-$loadCategory = mysqli_query($mysqli, "SELECT * FROM 'category’");
-$rowsCategory = mysqli_fetch_array($loadCategory);
-$sumRows = mysqli_num_rows($loadCategory);
-$data = [];
-if($loadCategory){
-for($i=1;$i<=$sumRows;$i++){
-$select = mysqli_query($mysqli, "SELECT * FROM ‘category' WHERE 'id' = "$i’");
+else if($postjson['aksi']=='cek_update_int_event"){
+$cek = mysqli_query($mysqli, "SELECT * FROM ‘category’");
+$num = mysqli_num_rows($cek);
+$category [];
