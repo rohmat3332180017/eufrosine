@@ -1,19 +1,18 @@
-'created'=> $baris['created'],
-'int_event' => $baris['int_event'],
-‘upcoming_event'=> $baris['upcoming_event’],
-'attended_event' => $baris['attended_event']
-);
-$row = mysqli_num_rows($checkAccount);
-if($row== 0}{
-$result = json_encode(array('success' => false, 'msg' => 'Akun Tidak Terdaftar!"));
-}
-else{
-if($checkAccount){
-if($baris['int_event']=="-"){
-$result = json_encode(array('success' => true, 'result' => $data));
-}
-Else{
-$result = json_encode(array('success' => true, 'result' => $data));
+$result json_encode(array('success' => false, 'msg' => Terjadi Kesalahan'));
 }
 }
-else{
+}
+echo $result;
+}
+else if($postjson['aksi']=='load_category'){
+$email = $postjson['email'];
+$loadCategoryUser = mysqli_query($mysqli, "SELECT * FROM 'user’ WHERE 'email' = ‘$email’");
+$rowsCategoryUser = mysqli_fetch_array($loadCategoryUser);
+$int_event = $rowsCategoryUser['int_event'];
+$loadCategory = mysqli_query($mysqli, "SELECT * FROM 'category’");
+$rowsCategory = mysqli_fetch_array($loadCategory);
+$sumRows = mysqli_num_rows($loadCategory);
+$data = [];
+if($loadCategory){
+for($i=1;$i<=$sumRows;$i++){
+$select = mysqli_query($mysqli, "SELECT * FROM ‘category' WHERE 'id' = "$i’");
