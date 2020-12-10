@@ -1,19 +1,19 @@
-echo $result;
+'created'=> $baris['created'],
+'int_event' => $baris['int_event'],
+‘upcoming_event'=> $baris['upcoming_event’],
+'attended_event' => $baris['attended_event']
+);
+$row = mysqli_num_rows($checkAccount);
+if($row== 0}{
+$result = json_encode(array('success' => false, 'msg' => 'Akun Tidak Terdaftar!"));
 }
-else if($postjson['aksi']==’proses_login'){
-$inputEmail = $postjson['email’];
-$inputPass = $postjson ['password'];
-if($inputEmail == “"){
-$result = json_encode(array('success' => false, 'msg' => "Email tidak boleh kosong!'));
-}
-else if($inputPass == “"){
-$result json_encode(array('success' => false, 'msg' => 'Kata Sandi tidak boleh kosong!'));
+else{
+if($checkAccount){
+if($baris['int_event']=="-"){
+$result = json_encode(array('success' => true, 'result' => $data));
 }
 Else{
-$password = md5($postjsonl'password']);
-$checkAccount = mysqli_query($mysqli, "SELECT * FROM user WHERE 'email' = '$postjson[email]' AND 'password’ =
-$password’");
-$baris = mysqli_fetch_array($checkAccount);
-$data = array(
-'name' => $baris['name'],
-'email'=> $baris['email'],
+$result = json_encode(array('success' => true, 'result' => $data));
+}
+}
+else{
